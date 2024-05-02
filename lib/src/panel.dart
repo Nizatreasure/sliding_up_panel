@@ -332,25 +332,32 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
                     children: <Widget>[
                       //open panel
                       Positioned(
-                          top: widget.slideDirection == SlideDirection.UP
-                              ? 0.0
-                              : null,
-                          bottom: widget.slideDirection == SlideDirection.DOWN
-                              ? 0.0
-                              : null,
-                          width: MediaQuery.of(context).size.width -
-                              (widget.margin != null
-                                  ? widget.margin!.horizontal
-                                  : 0) -
-                              (widget.padding != null
-                                  ? widget.padding!.horizontal
-                                  : 0),
-                          child: Container(
-                            height: widget.maxHeight,
-                            child: widget.panel != null
-                                ? widget.panel
-                                : widget.panelBuilder!(_sc),
-                          )),
+                        top: widget.slideDirection == SlideDirection.UP
+                            ? 0.0
+                            : null,
+                        bottom: widget.slideDirection == SlideDirection.DOWN
+                            ? 0.0
+                            : null,
+                        width: MediaQuery.of(context).size.width -
+                            (widget.margin != null
+                                ? widget.margin!.horizontal
+                                : 0) -
+                            (widget.padding != null
+                                ? widget.padding!.horizontal
+                                : 0),
+                        child: AnimatedBuilder(
+                          animation: _ac,
+                          builder: (context, child) {
+                            return Container(
+                                height: _ac.value *
+                                        (widget.maxHeight - widget.minHeight) +
+                                    widget.minHeight,
+                                child: widget.panel != null
+                                    ? widget.panel
+                                    : widget.panelBuilder!(_sc));
+                          },
+                        ),
+                      ),
 
                       // header
                       widget.header != null
